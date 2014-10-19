@@ -28,6 +28,12 @@ exports.add=function(name,password){
 exports.getAll=function(callback){
     User.find({},callback);
 }
+exports.delete=function(id,callback){
+    User.remove({_id:id},callback);
+}
+exports.update=function(user,callback){
+    User.update({_id:user._id},{$set:{userName:user.userName,password:user.password}},callback);
+}
 exports.checkExit=function(name,password,callback){
     User.find({userName:name,password:password},callback);
 }
