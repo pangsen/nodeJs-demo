@@ -1,0 +1,47 @@
+/**
+ * Created by hp5 on 10/18/2014.
+ */
+$(function(){
+    $("#login").click(function(){
+       if(!tools.formValidate($(this))){
+           return;
+       };
+    var user={
+    userName:$("input[name='userName']").val(),
+    password:$("input[name='password']").val()};
+        $.ajax({
+            url:"/account/login",
+            data:user,
+            type:"Post",
+            success:function(data){
+                if(data.success){
+                    tools.showSuccessMessage()
+                }else{
+                    tools.showErrorMessage(data.errorMessage)
+                }
+            },
+            error:function(err){
+                tools.showErrorMessage(err)
+            }
+        });
+    });
+    $("#register").click(function(){
+        if(!tools.formValidate($(this))){
+            return;
+        };
+        var user={
+            userName:$("input[name='userName']").val(),
+            password:$("input[name='password']").val()};
+        $.ajax({
+            url:"/account/register",
+            data:user,
+            type:"Post",
+            success:function(data){
+                tools.showSuccessMessage()
+            },
+            error:function(err){
+                tools.showErrorMessage(err)
+            }
+        });
+    });
+})
