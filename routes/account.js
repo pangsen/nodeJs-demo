@@ -30,7 +30,9 @@ router.post('/register', function(req, res) {
 router.get('/user/all', function(req, res) {
 
    userRepository.getAll(function(err,data){
-       res.json(data);
+       console.log(data);
+       res.render("user",{users:data});
     });
 });
+
 module.exports = router;
