@@ -16,7 +16,7 @@ $(function () {
             success: function (data) {
                 if (data.success) {
                     tools.showSuccessMessage()
-                    window.location.href="/account/user/all"
+                    window.location.href = "/account/user/all"
                 } else {
                     tools.showErrorMessage(data.errorMessage)
                 }
@@ -39,7 +39,7 @@ $(function () {
             type: "Post",
             success: function (data) {
                 tools.showSuccessMessage()
-                window.location.href="/account"
+                window.location.href = "/account"
 
             },
             error: function (err) {
@@ -49,30 +49,33 @@ $(function () {
     });
     $("[show-edit-modal]").click(function () {
         $("#editUserModal").modal("show")
-        $("[data-user-edit]").attr("data-id",$(this).attr("data-id"));
+        $("input[name='userName']").val($(this).parents("tr").find("td:first").text().trim());
+        $("input[name='password']").val($(this).parents("tr").find("td:eq(1)").text().trim());
+        $("input[name='confirm-password']").val($(this).parents("tr").find("td:eq(1)").text().trim());
+        $("[data-user-edit]").attr("data-id", $(this).attr("data-id"));
     })
     $("[show-delete-modal]").click(function () {
         $("#deleteUserModal").modal("show")
-        $("[data-user-delete]").attr("data-id",$(this).attr("data-id"));
+        $("[data-user-delete]").attr("data-id", $(this).attr("data-id"));
     })
-    $("[data-user-edit]").click(function(){
-        if(!tools.formValidate($(this))){
+    $("[data-user-edit]").click(function () {
+        if (!tools.formValidate($(this))) {
             return;
         }
         var id = $(this).attr("data-id");
-        var user={
-            _id:id,
-            userName:$("input[name='userName']").val(),
-            password:$("input[name='password']").val()
+        var user = {
+            _id: id,
+            userName: $("input[name='userName']").val(),
+            password: $("input[name='password']").val()
         }
         $.ajax({
             url: "/account/user/update",
             type: "Post",
-            data:user,
+            data: user,
             success: function (result) {
                 if (result.success) {
                     tools.showSuccessMessage();
-                    window.location.href="/account/user/all"
+                    window.location.href = "/account/user/all"
                 } else {
                     tools.showErrorMessage(result.errorMessage)
                 }
@@ -82,7 +85,7 @@ $(function () {
             }
         });
     })
-    $("[data-user-delete]").click(function(){
+    $("[data-user-delete]").click(function () {
         var id = $(this).attr("data-id");
         $.ajax({
             url: "/account/user/delete?id=" + id,
@@ -90,7 +93,7 @@ $(function () {
             success: function (result) {
                 if (result.success) {
                     tools.showSuccessMessage();
-                    window.location.href="/account/user/all"
+                    window.location.href = "/account/user/all"
                 } else {
                     tools.showErrorMessage(result.errorMessage)
                 }

@@ -13,6 +13,9 @@ router.post('/login', function (req, res) {
         console.log(result);
         if (result.length > 0) {
             res.json({success: true});
+            req.session.user=result[0];
+            req.session.save()
+            console.log(req.session)
         } else {
             res.json({success: false, errorMessage: "User name or password is not current!"});
         }
@@ -28,10 +31,15 @@ router.post('/register', function (req, res) {
 });
 
 router.get('/user/all', function (req, res) {
-    userRepository.getAll(function (err, data) {
-        console.log(data);
-        res.render("user", {users: data});
-    });
+    console.log(req.session);
+    if(!req.session.user){
+        res.redirect('/account');
+    }else{
+        userRepository.getAll(function (err, data) {
+            console.log(data);
+            res.render("user", {users: data});
+        });
+    }
 });
 router.get('/user/delete', function (req, res) {
     userRepository.delete(req.query.id,function (err, data) {
